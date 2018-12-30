@@ -96,7 +96,7 @@ ID=	/usr/bin/id
 # facilitate migrations. G11N wants $(CONSOLIDATION)-localizable for the
 # localizable publisher.
 CONSOLIDATION =	userland
-PUBLISHER ?=	nightly
+PUBLISHER ?=	userland
 PUBLISHER_LOCALIZABLE ?=	$(CONSOLIDATION)-localizable
 
 # Defines $(space) as a single blank space, so we can use it to convert
@@ -1416,3 +1416,5 @@ include $(WS_MAKE_RULES)/environment.mk
 # is not always what you get.
 print-%:
 	@echo '$(subst ','\'',$*=$($*)) (origin: $(origin $*), flavor: $(flavor $*))'
+
+USERLAND_ARCHIVES ?=  $(WS_TOP)/archives/

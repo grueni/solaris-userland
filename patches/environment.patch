@@ -1,0 +1,155 @@
+diff --git a/make-rules/shared-macros.mk b/export/builds/shared-macros.mk
+index 52ea506ab..235f3f7ac 100644
+--- a/make-rules/shared-macros.mk
++++ b/export/builds/shared-macros.mk
+@@ -96,7 +96,7 @@ ID=	/usr/bin/id
+ # facilitate migrations. G11N wants $(CONSOLIDATION)-localizable for the
+ # localizable publisher.
+ CONSOLIDATION =	userland
+-PUBLISHER ?=	nightly
++PUBLISHER ?=	userland
+ PUBLISHER_LOCALIZABLE ?=	$(CONSOLIDATION)-localizable
+ 
+ # Defines $(space) as a single blank space, so we can use it to convert
+@@ -1416,3 +1416,5 @@ include $(WS_MAKE_RULES)/environment.mk
+ # is not always what you get.
+ print-%:
+ 	@echo '$(subst ','\'',$*=$($*)) (origin: $(origin $*), flavor: $(flavor $*))'
++
++USERLAND_ARCHIVES ?=  $(WS_TOP)/archives/
+diff --git a/tools/userland-unpack b/export/builds/userland-unpack
+index b9272cf4c..2564d0ce2 100755
+--- a/tools/userland-unpack
++++ b/export/builds/userland-unpack
+@@ -124,7 +124,7 @@ def main():
+ 		else:
+ 			assert False, "unknown option"
+ 
+-	filename = ((args[0] == '/') and "%s" or "../%s") % args[0]
++	filename = ((args[0][0] == '/') and "%s" or "../%s") % args[0]
+ 	uncompress, unpack = uncompress_unpack_commands(filename)
+ 	tempdir = tempfile.mkdtemp(dir='.')
+ 
+diff --git a/tools/python/pkglint/userland.py b/export/builds/aaaa/userland.py
+index 1bb4d49e8..066b505d4 100644
+--- a/tools/python/pkglint/userland.py
++++ b/export/builds/aaaa/userland.py
+@@ -562,9 +562,9 @@ class UserlandManifestChecker(base.ManifestChecker):
+ 			engine.error( _("missing license action"),
+ 				msgid="%s%s.0" % (self.name, pkglint_id))
+ 
+-		if 'org.opensolaris.arc-caseid' not in manifest:
+-			engine.error( _("missing ARC data (org.opensolaris.arc-caseid)"),
+-				msgid="%s%s.0" % (self.name, pkglint_id))
++#		if 'org.opensolaris.arc-caseid' not in manifest:
++#			engine.error( _("missing ARC data (org.opensolaris.arc-caseid)"),
++#				msgid="%s%s.0" % (self.name, pkglint_id))
+ 
+ 	component_check.pkglint_desc = _(
+ 		"license actions and ARC information are required if you deliver files.")
+diff --git a/make-rules/ips.mk b/export/builds/aaaa/ips.mk
+index 1d9233ea3..2a4bf56af 100644
+--- a/make-rules/ips.mk
++++ b/export/builds/aaaa/ips.mk
+@@ -117,6 +117,8 @@ PKG_VARS += HG_REPO HG_REV HG_URL
+ PKG_VARS += GIT_COMMIT_ID GIT_REPO GIT_TAG
+ PKG_VARS += MACH MACH32 MACH64
+ PKG_VARS += PUBLISHER PUBLISHER_LOCALIZABLE
++PKG_VARS += COMPONENT_FMRI COMPONENT_LICENSE COMPONENT_LICENSE_FILE
++PKG_VARS += COMPONENT_SUMMARY
+ 
+ # Include TPNO_* Makefile variables in PKG_VARS.
+ $(foreach macro, $(filter TPNO_%, $(.VARIABLES)), \
+@@ -129,6 +131,9 @@ PKG_MACROS +=		IPS_COMPONENT_RE_VERSION=$(subst .,\\.,$(IPS_COMPONENT_VERSION))
+ # COMPONENT_VERSION suitable for use in regular expressions.
+ PKG_MACROS +=		COMPONENT_RE_VERSION=$(subst .,\\.,$(COMPONENT_VERSION))
+ 
++PKG_OPTIONS +=    $(PKG_MACROS:%=-D %) \
++          -D COMPONENT_CLASSIFICATION="org.opensolaris.category.2008:$(strip $(COMPONENT_CLASSIFICATION))"
++
+ PKG_MACROS +=		PYTHON_2.7_ONLY=\#
+ PKG_MACROS +=		PYTHON_3.4_ONLY=\#
+ PKG_MACROS +=		PYTHON_3.5_ONLY=\#
+@@ -290,7 +295,6 @@ define python-manifest-rule
+ $(MANIFEST_BASE)-%-$(2).mogrified: PKG_MACROS += PYTHON_$(1)_ONLY=
+ 
+ $(MANIFEST_BASE)-%-$(2).p5m: %-PYVER.p5m
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
+ 	$(PKGMOGRIFY) -D PYVER=$(1) -D MAYBE_PYVER_SPACE="$(1) " \
+ 		-D MAYBE_SPACE_PYVER=" $(1)" $(MANIFEST_LIMITING_VARS) -D PYV=$(2) $$< > $$@
+ endef
+@@ -315,7 +319,6 @@ $(BUILD_DIR)/mkgeneric-python: $(WS_MAKE_RULES)/shared-macros.mk
+ # more generic like LANGVER might make more sense, but for now we are
+ # sticking with something known to work.
+ $(MANIFEST_BASE)-%.p5m: %-PYVER.p5m $(BUILD_DIR)/mkgeneric-python
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
+ 	$(PKGMOGRIFY) -D PYV=###PYV### -D MAYBE_PYVER_SPACE= \
+ 		$(MANIFEST_LIMITING_VARS) \
+ 		-D MAYBE_SPACE_PYVER= $(BUILD_DIR)/mkgeneric-python \
+@@ -326,7 +329,6 @@ $(MANIFEST_BASE)-%.p5m: %-PYVER.p5m $(BUILD_DIR)/mkgeneric-python
+ # perl module specific to a particular version of the perl runtime.
+ define perl-manifest-rule
+ $(MANIFEST_BASE)-%-$(shell echo $(1) | tr -d .).p5m: %-PERLVER.p5m
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $$<
+ 	$(PKGMOGRIFY) -D PERLVER=$(1) -D MAYBE_PERLVER_SPACE="$(1) " \
+ 		-D MAYBE_SPACE_PERLVER=" $(1)" \
+ 		-D PLV=$(shell echo $(1) | tr -d .) \
+@@ -347,7 +349,6 @@ $(BUILD_DIR)/mkgeneric-perl: $(WS_MAKE_RULES)/shared-macros.mk
+ # See the block comment above about why "###PYV###" is used here even
+ # though this is for Perl rather than Python.
+ $(MANIFEST_BASE)-%.p5m: %-PERLVER.p5m $(BUILD_DIR)/mkgeneric-perl
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
+ 	$(PKGMOGRIFY) -D PLV=###PYV### -D MAYBE_PERLVER_SPACE= \
+ 		-D MAYBE_SPACE_PERLVER= $(BUILD_DIR)/mkgeneric-perl \
+ 		$(WS_TOP)/transforms/mkgeneric $< > $@
+@@ -366,7 +367,6 @@ $(MANIFEST_BASE)-%-$(shell echo $(1) | tr -d .).p5m: %-RUBYVER.p5m
+ 	if [ -f $$*-$(shell echo $(1) | tr -d .)GENFRAG.p5m ]; then \
+ 		cat $$*-$(shell echo $(1) | tr -d .)GENFRAG.p5m >> $$@; \
+ 	fi
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
+ 	$(PKGMOGRIFY) -D RUBY_VERSION=$(1) -D RUBY_LIB_VERSION=$(2) \
+ 	    -D MAYBE_RUBY_VERSION_SPACE="$(1) " \
+ 	    -D MAYBE_SPACE_RUBY_VERSION=" $(1)" \
+@@ -392,7 +392,6 @@ $(BUILD_DIR)/mkgeneric-ruby: $(WS_MAKE_RULES)/shared-macros.mk
+ # See the block comment above about why "###PYV###" is used here even
+ # though this is for Ruby rather than Python.
+ $(MANIFEST_BASE)-%.p5m: %-RUBYVER.p5m $(BUILD_DIR)/mkgeneric-ruby
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
+ 	$(PKGMOGRIFY) -D RUBYV=###PYV### -D MAYBE_RUBY_VERSION_SPACE= \
+ 		-D MAYBE_SPACE_RUBY_VERSION= $(BUILD_DIR)/mkgeneric-ruby \
+ 		$(WS_TOP)/transforms/mkgeneric $< > $@
+@@ -407,7 +406,6 @@ PHP_EXTENSION_DIR_FUNC= $(shell env PATH=/usr/bin $(shell dirname $(PHP.$(1)))/p
+ # PHP module specific to a particular version of the PHP runtime.
+ define php-manifest-rule
+ $(MANIFEST_BASE)-%-$(shell echo $(1) | tr -d .).p5m: %-PHPVER.p5m
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $$<
+ 	$(PKGMOGRIFY) -D PHPVER=$(1) -D MAYBE_PHPVER_SPACE="$(1) " \
+ 		-D MAYBE_SPACE_PHPVER=" $(1)" \
+ 		-D PHV=$(shell echo $(1) | tr -d .) \
+@@ -428,7 +426,6 @@ $(BUILD_DIR)/mkgeneric-php: $(WS_MAKE_RULES)/shared-macros.mk
+ # See the block comment above about why "###PYV###" is used here even
+ # though this is for PHP rather than Python.
+ $(MANIFEST_BASE)-%.p5m: %-PHPVER.p5m $(BUILD_DIR)/mkgeneric-php
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
+ 	$(PKGMOGRIFY) -D PHV=###PYV### -D MAYBE_PHPVER_SPACE= \
+ 		-D MAYBE_SPACE_PHPVER= $(BUILD_DIR)/mkgeneric-php \
+ 		$(WS_TOP)/transforms/mkgeneric $< > $@
+@@ -444,7 +441,6 @@ $(foreach mfst,$(HISTORICAL_MANIFESTS),$(eval $(call history-manifest-rule,$(mfs
+ 
+ # mogrify non-parameterized manifests
+ $(MANIFEST_BASE)-%.mogrified:	%.p5m $(BUILD_DIR)
+-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $<
+ 	$(PKGMOGRIFY) $(PKG_OPTIONS) $< \
+ 		$(PUBLISH_TRANSFORMS) | \
+ 		sed -e '/^$$/d' -e '/^#.*$$/d' | uniq >$@
+diff --git a/make-rules/ips-buildinfo.mk b/export/builds/aaaa/ips-buildinfo.mk
+index 22f5303eb..21bf6826b 100644
+--- a/make-rules/ips-buildinfo.mk
++++ b/export/builds/aaaa/ips-buildinfo.mk
+@@ -103,4 +103,5 @@ BUILD_VERSION ?=  5.11-$(BRANCHID)
+ 
+ # Set a default reference repository against which pkglint is run, in case it
+ # hasn't been set in the environment.
+-CANONICAL_REPO ?=		http://ipkg.us.oracle.com/solaris11/dev/
++#CANONICAL_REPO ?=		http://ipkg.us.oracle.com/solaris11/dev/
++CANONICAL_REPO ?= http://zd-oirepo-s1.zdkwh.mlrbw.net/sol113
