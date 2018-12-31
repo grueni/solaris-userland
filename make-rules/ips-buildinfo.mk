@@ -103,4 +103,5 @@ BUILD_VERSION ?=  5.11-$(BRANCHID)
 
 # Set a default reference repository against which pkglint is run, in case it
 # hasn't been set in the environment.
-CANONICAL_REPO ?=		http://ipkg.us.oracle.com/solaris11/dev/
+#CANONICAL_REPO ?=		http://ipkg.us.oracle.com/solaris11/dev/
+CANONICAL_REPO ?= http://zd-oirepo-s1.zdkwh.mlrbw.net/sol113
