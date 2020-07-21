@@ -119,6 +119,8 @@ PKG_VARS += HG_REPO HG_REV HG_URL
 PKG_VARS += GIT_COMMIT_ID GIT_REPO GIT_TAG
 PKG_VARS += MACH MACH32 MACH64
 PKG_VARS += PUBLISHER PUBLISHER_LOCALIZABLE BRANCHID
+PKG_VARS += COMPONENT_FMRI COMPONENT_LICENSE COMPONENT_LICENSE_FILE
+PKG_VARS += COMPONENT_SUMMARY
 
 # Include TPNO_* Makefile variables in PKG_VARS.
 $(foreach macro, $(filter TPNO_%, $(.VARIABLES)), \
@@ -142,7 +144,8 @@ PKG_MACROS +=		SQ=\'
 PKG_MACROS +=		DQ=\"
 PKG_MACROS +=		Q=\"
 
-PKG_OPTIONS +=		$(PKG_MACROS:%=-D %)
+PKG_OPTIONS +=		$(PKG_MACROS:%=-D %) \
+	-D COMPONENT_CLASSIFICATION="org.opensolaris.category.2008:$(strip $(COMPONENT_CLASSIFICATION))"
 
 # 11.3 doesn't include CWD in pkgmogrify search path
 PKG_OPTIONS +=		-I$(COMPONENT_DIR)
@@ -297,7 +300,6 @@ define python-manifest-rule
 $(MANIFEST_BASE)-%-$(2).mogrified: PKG_MACROS += PYTHON_$(1)_ONLY=
 
 $(MANIFEST_BASE)-%-$(2).p5m: %-PYVER.p5m
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
 	$(PKGMOGRIFY) -D PYVER=$(1) -D MAYBE_PYVER_SPACE="$(1) " \
 		-D MAYBE_SPACE_PYVER=" $(1)" $(MANIFEST_LIMITING_VARS) -D PYV=$(2) $$< > $$@
 endef
@@ -322,7 +324,6 @@ $(BUILD_DIR)/mkgeneric-python: $(WS_MAKE_RULES)/shared-macros.mk
 # more generic like LANGVER might make more sense, but for now we are
 # sticking with something known to work.
 $(MANIFEST_BASE)-%.p5m: %-PYVER.p5m $(BUILD_DIR)/mkgeneric-python
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
 	$(PKGMOGRIFY) -D PYV=###PYV### -D MAYBE_PYVER_SPACE= \
 		$(MANIFEST_LIMITING_VARS) \
 		-D MAYBE_SPACE_PYVER= $(BUILD_DIR)/mkgeneric-python \
@@ -333,7 +334,6 @@ $(MANIFEST_BASE)-%.p5m: %-PYVER.p5m $(BUILD_DIR)/mkgeneric-python
 # perl module specific to a particular version of the perl runtime.
 define perl-manifest-rule
 $(MANIFEST_BASE)-%-$(shell echo $(1) | tr -d .).p5m: %-PERLVER.p5m
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $$<
 	$(PKGMOGRIFY) -D PERLVER=$(1) -D MAYBE_PERLVER_SPACE="$(1) " \
 		-D MAYBE_SPACE_PERLVER=" $(1)" \
 		-D PLV=$(shell echo $(1) | tr -d .) \
@@ -354,7 +354,6 @@ $(BUILD_DIR)/mkgeneric-perl: $(WS_MAKE_RULES)/shared-macros.mk
 # See the block comment above about why "###PYV###" is used here even
 # though this is for Perl rather than Python.
 $(MANIFEST_BASE)-%.p5m: %-PERLVER.p5m $(BUILD_DIR)/mkgeneric-perl
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
 	$(PKGMOGRIFY) -D PLV=###PYV### -D MAYBE_PERLVER_SPACE= \
 		-D MAYBE_SPACE_PERLVER= $(BUILD_DIR)/mkgeneric-perl \
 		$(WS_TOP)/transforms/mkgeneric $< > $@
@@ -366,7 +365,6 @@ $(MANIFEST_BASE)-%.p5m: %-PERLVER.p5m $(BUILD_DIR)/mkgeneric-perl
 # the version number.
 define ruby-manifest-rule
 $(MANIFEST_BASE)-%-$(2).p5m: %-RUBYVER.p5m
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
 	$(PKGMOGRIFY) -D RUBY_VERSION=$(1) -D RUBY_LIB_VERSION=$(1).0 \
 	    -D VENDOR_RUBY=usr/ruby/$(1)/lib/ruby/vendor_ruby/$(1).0 \
 	    -D VENDOR_GEM_DIR=usr/ruby/$(1)/lib/ruby/vendor_ruby/gems/$(1).0 \
@@ -389,7 +387,6 @@ $(BUILD_DIR)/mkgeneric-ruby: $(WS_MAKE_RULES)/shared-macros.mk
 # See the block comment above about why "###PYV###" is used here even
 # though this is for Ruby rather than Python.
 $(MANIFEST_BASE)-%.p5m: %-RUBYVER.p5m $(BUILD_DIR)/mkgeneric-ruby
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
 	$(PKGMOGRIFY) -D RUBYV=###PYV### -D MAYBE_RUBYVER_SPACE= \
 		-D MAYBE_SPACE_RUBYVER= $(BUILD_DIR)/mkgeneric-ruby \
 		$(WS_TOP)/transforms/mkgeneric $< > $@
@@ -404,7 +401,6 @@ PHP_EXTENSION_DIR_FUNC= $(shell env PATH=/usr/bin $(shell dirname $(PHP.$(1)))/p
 # PHP module specific to a particular version of the PHP runtime.
 define php-manifest-rule
 $(MANIFEST_BASE)-%-$(shell echo $(1) | tr -d .).p5m: %-PHPVER.p5m
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $$<
 	$(PKGMOGRIFY) -D PHPVER=$(1) -D MAYBE_PHPVER_SPACE="$(1) " \
 		-D MAYBE_SPACE_PHPVER=" $(1)" \
 		-D PHV=$(shell echo $(1) | tr -d .) \
@@ -425,7 +421,6 @@ $(BUILD_DIR)/mkgeneric-php: $(WS_MAKE_RULES)/shared-macros.mk
 # See the block comment above about why "###PYV###" is used here even
 # though this is for PHP rather than Python.
 $(MANIFEST_BASE)-%.p5m: %-PHPVER.p5m $(BUILD_DIR)/mkgeneric-php
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $(CANONICAL_MANIFESTS)
 	$(PKGMOGRIFY) -D PHV=###PYV### -D MAYBE_PHPVER_SPACE= \
 		-D MAYBE_SPACE_PHPVER= $(BUILD_DIR)/mkgeneric-php \
 		$(WS_TOP)/transforms/mkgeneric $< > $@
@@ -441,7 +436,6 @@ $(foreach mfst,$(HISTORICAL_MANIFESTS),$(eval $(call history-manifest-rule,$(mfs
 
 # mogrify non-parameterized manifests
 $(MANIFEST_BASE)-%.mogrified:	%.p5m $(BUILD_DIR)
-	$(PKGFMT) $(PKGFMT_CHECK_ARGS) $<
 	$(PKGMOGRIFY) $(PKG_OPTIONS) $< \
 		$(PUBLISH_TRANSFORMS) | \
 		sed -e '/^$$/d' -e '/^#.*$$/d' | uniq >$@
