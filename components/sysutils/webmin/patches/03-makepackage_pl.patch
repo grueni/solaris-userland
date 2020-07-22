@@ -1,6 +1,6 @@
---- webmin-1.900/makepackage.pl.~1~	2018-11-16 17:05:37.000000000 +0000
-+++ webmin-1.900/makepackage.pl	2019-03-10 15:36:21.973823128 +0000
-@@ -1,136 +1,31 @@
+--- webmin-1.953/makepackage.pl.~1~	2020-07-22 15:48:37.207264151 +0000
++++ webmin-1.953/makepackage.pl	2020-07-22 15:59:03.651989026 +0000
+@@ -1,136 +1,30 @@
  #!/usr/bin/perl
  # makepackage.pl <version>
 -# Copy files from some directory to /opt/webmin and build a package
@@ -10,7 +10,7 @@
 -$dir = $ARGV[1] || "/usr/local/webadmin/tarballs/webmin-$ARGV[0]";
 +@ARGV || die "usage: makepackage.pl <source> <target>";
 +$dir = $ARGV[0];
-+$tgt = $ARGV[1]; 
++$tgt = $ARGV[1];
  $> == 0 || die "makepackage.pl must be run as root";
  -r "$dir/version" || die "$dir does not look like a webmin directory";
  chop($v = `cat $dir/version`);
@@ -18,7 +18,7 @@
 -print "Copying $dir to /opt/webmin ..\n";
 -system("rm -rf /opt/webmin");
 -mkdir("/opt/webmin", 0755);
--system("cd $dir ; tar cf - . | (cd /opt/webmin ; tar xf -)");
+-system("cd $dir && /opt/csw/bin/gtar cf - . | (cd /opt/webmin ; /opt/csw/bin/gtar xf -)");
 -open(MODE, ">/opt/webmin/install-type");
 +print "Copying $dir to $tgt ..\n";
 +system("rm -rf $tgt");
@@ -37,7 +37,6 @@
  
  print "Deleting non-Solaris modules ..\n";
 -system("cd /opt/webmin ; rm -rf /opt/webmin/{adsl-client,exports,fdisk,firewall,frox,grub,heartbeat,idmapd,ipsec,krb5,lilo,lvm,ppp-client,pptp-client,pptp-server,raid,shorewall,smart-status,vgetty,ldap-client,iscsi-server,iscsi-client,iscsi-target,bsdfdisk,firewalld}");
-+#system("cd $tgt ; rm -rf $tgt/{adsl-client,exports,fdisk,firewall,frox,grub,heartbeat,idmapd,ipsec,krb5,lilo,lvm,ppp-client,pptp-client,pptp-server,raid,shorewall,smart-status,vgetty,ldap-client,iscsi-server,iscsi-client,iscsi-target,bsdfdisk,firewalld}");
 +system("cd $tgt ; rm -rf $tgt/{adsl-client,exports,fdisk,firewall,frox,heartbeat,idmapd,ipsec,lilo,lvm,ppp-client,pptp-client,pptp-server,raid,shorewall,vgetty,iscsi-*,bsdfdisk,firewalld,shellinabox mount/freebsd-mounts*}");
  print ".. done\n\n";
  
