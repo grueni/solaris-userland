@@ -1,0 +1,60 @@
+--- libesmtp-1.0.6/base64.h.org	2020-07-21 20:15:52.002244186 +0000
++++ libesmtp-1.0.6/base64.h	2020-07-21 20:16:01.025262321 +0000
+@@ -22,7 +22,7 @@
+  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
+ 
+-int b64_decode (void *dst, int dstlen, const char *src, int srclen);
+-int b64_encode (char *dst, int dstlen, const void *src, int srclen);
++int b64_decode2 (void *dst, int dstlen, const char *src, int srclen);
++int b64_encode2 (char *dst, int dstlen, const void *src, int srclen);
+ 
+ #endif
+--- libesmtp-1.0.6/base64.c.org	2020-07-21 20:15:18.527629426 +0000
++++ libesmtp-1.0.6/base64.c	2020-07-21 20:15:39.228726192 +0000
+@@ -56,7 +56,7 @@
+    data and it is not necessarily a string, there is no \0 byte at the
+    end of the decoded data. */
+ int
+-b64_decode (void *dst, int dstlen, const char *src, int srclen)
++b64_decode2 (void *dst, int dstlen, const char *src, int srclen)
+ {
+   const unsigned char *p, *q;
+   unsigned char *t;
+@@ -116,7 +116,7 @@
+    arbitrary binary data, the output is a \0 terminated string.
+    src and dst may not share the same buffer.  */
+ int
+-b64_encode (char *dst, int dstlen, const void *src, int srclen)
++b64_encode2 (char *dst, int dstlen, const void *src, int srclen)
+ {
+   char *to = dst;
+   const unsigned char *from;
+--- libesmtp-1.0.6/smtp-auth.c.org	2020-07-21 20:16:24.872860450 +0000
++++ libesmtp-1.0.6/smtp-auth.c	2020-07-21 20:16:53.144632224 +0000
+@@ -157,7 +157,7 @@
+   if (response != NULL)
+     {
+       /* Encode the response and send it back to the server */
+-      len = b64_encode (buf, sizeof buf, response, len);
++      len = b64_encode2 (buf, sizeof buf, response, len);
+       if (len == 0)
+ 	sio_write (conn, " =", 2);
+       else if (len > 0)
+@@ -243,14 +243,14 @@
+   int len;
+ 
+   /* Decode the text from the server to get the challenge. */
+-  len = b64_decode (buf, sizeof buf, session->mta_status.text, -1);
++  len = b64_decode2 (buf, sizeof buf, session->mta_status.text, -1);
+   if (len >= 0)
+     {
+       /* Send it through SASL and get the response. */
+       response = auth_response (session->auth_context, buf, &len);
+ 
+       /* Encode the response and send it back to the server */
+-      len = (response != NULL) ? b64_encode (buf, sizeof buf, response, len)
++      len = (response != NULL) ? b64_encode2 (buf, sizeof buf, response, len)
+ 			       : -1;
+     }
+ 

@@ -1,0 +1,13 @@
+diff --git a/components/cluster/corosync/patches/byteorder.patch b/components/cluster/corosync/patches/byteorder.patch
+--- corosync-2.4.2/qdevices/tlv.c.orig 2019-01-01 11:09:04.837743797 +0000
++++ corosync-2.4.2/qdevices/tlv.c      2019-01-01 11:10:03.957572986 +0000
+@@ -49,6 +49,8 @@
+ #elif defined(__OpenBSD__)
+ #include <sys/types.h>
+ #define be64toh(x) betoh64(x)
++#elif defined(__sun)
++#include "rdendian.h"
+ #endif
+
+ #include "tlv.h"
+

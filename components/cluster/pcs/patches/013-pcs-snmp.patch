@@ -1,0 +1,8 @@
+--- pcs-0.9.168/pcs/snmp/Makefile.org	2020-07-22 09:31:00.148826275 +0000
++++ pcs-0.9.168/pcs/snmp/Makefile	2020-07-22 09:31:06.740578745 +0000
+@@ -1,4 +1,4 @@
+-PYAGENTX_VERSION="0.4.pcs.1"
++PYAGENTX_VERSION="0.4.pcs.2"
+ PYAGENTX_URI="https://github.com/ondrejmular/pyagentx/archive/v${PYAGENTX_VERSION}.tar.gz"
+ 
+ ifndef PYTHON

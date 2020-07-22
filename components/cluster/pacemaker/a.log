@@ -1,0 +1,213 @@
+/bin/bash: 9921338+: syntax error: operand expected (error token is “[1m+[0m”)
+/bin/bash: 100*/: syntax error: operand expected (error token is “[1m/[0m”)
+expr: syntax error: unexpected argument ‘20’
+(cd /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64 ; /usr/bin/env LD_OPTIONS="-M /usr/lib/ld/map.noexdata -M /usr/lib/ld/map.pagealign -Bdirect -zignore -zstrip-class=comment" LD_EXEC_OPTIONS=" -zsx=aslr=enable -zsx=nxstack=enable -zsx=nxheap=enable " LD_PIE_OPTIONS="-zsx=aslr=enable -zsx=nxstack=enable -zsx=nxheap=enable "  PKG_CONFIG_PATH="/usr/lib/amd64/pkgconfig" "ac_cv_func_realloc_0_nonnull=yes" INTLTOOL_PERL="/usr/perl5/5.22/bin/perl" http_proxy= https_proxy= ftp_proxy= GI_SCANNER_DISABLE_CACHE="" \
+	/usr/gnu/bin/make -j 12 -l 24  )
+make[1]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64'
+test -e ./configure || ./autogen.sh
+test -e /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/Makefile || /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/configure
+/usr/gnu/bin/make  core
+make[2]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64'
+Building only core components and tests: replace include lib daemons tools xml cts
+Building replace
+make[3]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/replace'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/replace'
+Building include
+make[3]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include'
+/usr/gnu/bin/make  all-recursive
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include'
+Making all in crm
+make[5]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm'
+Making all in common
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/common'
+make[6]: Nothing to be done for 'all'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/common'
+Making all in pengine
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/pengine'
+make[6]: Nothing to be done for 'all'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/pengine'
+Making all in cib
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/cib'
+make[6]: Nothing to be done for 'all'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/cib'
+Making all in fencing
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/fencing'
+make[6]: Nothing to be done for 'all'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/fencing'
+Making all in cluster
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/cluster'
+make[6]: Nothing to be done for 'all'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm/cluster'
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm'
+make[6]: Nothing to be done for 'all-am'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm'
+make[5]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/crm'
+Making all in pcmki
+make[5]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/pcmki'
+make[5]: Nothing to be done for 'all'.
+make[5]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include/pcmki'
+make[5]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include'
+make[5]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include'
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include'
+make[3]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/include'
+Building lib
+make[3]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib'
+Making all in gnu
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/gnu'
+/usr/gnu/bin/make  all-recursive
+make[5]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/gnu'
+make[6]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/gnu'
+make[6]: Nothing to be done for 'all-am'.
+make[6]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/gnu'
+make[5]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/gnu'
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/gnu'
+Making all in common
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/common'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/common'
+Making all in pengine
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/pengine'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/pengine'
+Making all in cib
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/cib'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/cib'
+Making all in services
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/services'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/services'
+Making all in fencing
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/fencing'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/fencing'
+Making all in lrmd
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/lrmd'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/lrmd'
+Making all in cluster
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/cluster'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/cluster'
+Making all in pacemaker
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/pacemaker'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib/pacemaker'
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib'
+make[4]: Nothing to be done for 'all-am'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib'
+make[3]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/lib'
+Building daemons
+make[3]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons'
+Making all in based
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/based'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/based'
+Making all in schedulerd
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/schedulerd'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/schedulerd'
+Making all in attrd
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/attrd'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/attrd'
+Making all in controld
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/controld'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/controld'
+Making all in execd
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/execd'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/execd'
+Making all in fenced
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/fenced'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/fenced'
+Making all in pacemakerd
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/pacemakerd'
+make[4]: Nothing to be done for 'all'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons/pacemakerd'
+make[4]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons'
+make[4]: Nothing to be done for 'all-am'.
+make[4]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons'
+make[3]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/daemons'
+Building tools
+make[3]: Entering directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools'
+chmod a+x /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_mon
+chmod a+x /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_resource
+chmod a+x /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_verify
+chmod a+x /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_ticket
+chmod a+x /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/iso8601
+chmod a+x /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/stonith_admin
+if [ -f ../tools/crm_mon.8.inc ]; then			\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		-h --help-all 						\
+		--no-discard-stderr 					\
+		-i ../tools/crm_mon.8.inc /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_mon		\
+		| sed -e '/.SS "Usage:"/,+3d' > crm_mon.8 ;			\
+else									\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_mon --output crm_mon.8 ;			\
+fi
+if [ -f ../tools/crm_verify.8.inc ]; then			\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		-h --help-all 						\
+		--no-discard-stderr 					\
+		-i ../tools/crm_verify.8.inc /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_verify		\
+		| sed -e '/.SS "Usage:"/,+3d' > crm_verify.8 ;			\
+else									\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_verify --output crm_verify.8 ;			\
+fi
+if [ -f ../tools/crm_resource.8.inc ]; then			\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		-h --help-all 						\
+		--no-discard-stderr 					\
+		-i ../tools/crm_resource.8.inc /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_resource		\
+		| sed -e '/.SS "Usage:"/,+3d' > crm_resource.8 ;			\
+else									\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_resource --output crm_resource.8 ;			\
+fi
+if [ -f ../tools/crm_ticket.8.inc ]; then			\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		-h --help-all 						\
+		--no-discard-stderr 					\
+		-i ../tools/crm_ticket.8.inc /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_ticket		\
+		| sed -e '/.SS "Usage:"/,+3d' > crm_ticket.8 ;			\
+else									\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/crm_ticket --output crm_ticket.8 ;			\
+fi
+if [ -f ../tools/iso8601.8.inc ]; then			\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		-h --help-all 						\
+		--no-discard-stderr 					\
+		-i ../tools/iso8601.8.inc /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/iso8601		\
+		| sed -e '/.SS "Usage:"/,+3d' > iso8601.8 ;			\
+else									\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/iso8601 --output iso8601.8 ;			\
+fi
+if [ -f ../tools/stonith_admin.8.inc ]; then			\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		-h --help-all 						\
+		--no-discard-stderr 					\
+		-i ../tools/stonith_admin.8.inc /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/stonith_admin		\
+		| sed -e '/.SS "Usage:"/,+3d' > stonith_admin.8 ;			\
+else									\
+	PATH=/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools:$PATH /usr/bin/help2man -N --section 1m --name "Part of the Pacemaker cluster resource manager"	\
+		/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools/stonith_admin --output stonith_admin.8 ;			\
+fi
+sed: command garbled: /.SS "Usage:"/,+3d
+sed: command garbled: /.SS "Usage:"/,+3d
+make[3]: *** [Makefile:1471: crm_mon.8] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[3]: *** [Makefile:1471: stonith_admin.8] Error 2
+make[3]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/tools'
+make[2]: *** [Makefile:1174: core] Error 1
+make[2]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64'
+make[1]: *** [GNUmakefile:75: build] Error 2
+make[1]: Leaving directory '/export/builds/solaris-userland/components/cluster/pacemaker/build/amd64'
+make: *** [/export/builds/solaris-userland/make-rules/configure.mk:184: /export/builds/solaris-userland/components/cluster/pacemaker/build/amd64/.built] Error 2
