@@ -1,0 +1,240 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+#
+# Copyright 2016-2018 Jim Klimov
+#
+
+<transform file path=usr.*/man/.+ -> default mangler.man.stability uncommitted>
+set name=pkg.fmri \
+    value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description value="$(COMPONENT_DESCRIPTION)"
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+
+license $(COMPONENT_LICENSE_FILE) license=$(COMPONENT_LICENSE)
+# depend type=require fmri=$(GCC_RUNTIME_PKG)
+depend type=require fmri=network/ssh
+
+# Support the best use-case: networked or local backup to another media...
+# alas, there are no "Recommends" in IPS, so we should Require...
+# Note: mbuffer 64-bit is recommended for end-user setup to support larger buffers (2Gb+)
+depend type=require fmri=shell/mbuffer
+
+
+# True package contents: At least bin/*, man/*, SMF xml, and ZnapZend/*.pm
+# "Non-true" contents: dependency PERL modules of specific versions,
+# which should over time maybe become library/perl-5/* packages
+file path=lib/svc/manifest/system/znapzend.xml group=sys mode=0444
+
+link path=usr/bin/znapzend target=../share/znapzend/bin/znapzend
+link path=usr/bin/znapzendzetup target=../share/znapzend/bin/znapzendzetup
+link path=usr/bin/znapzendztatz target=../share/znapzend/bin/znapzendztatz
+
+file path=usr/share/man/man1/znapzend.1
+file path=usr/share/man/man1/znapzendzetup.1
+file path=usr/share/man/man1/znapzendztatz.1
+file path=usr/share/znapzend/bin/znapzend
+file path=usr/share/znapzend/bin/znapzendzetup
+file path=usr/share/znapzend/bin/znapzendztatz
+file path=usr/share/znapzend/lib/IO/Pipely.pm
+file path=usr/share/znapzend/lib/Module/Build.pm
+file path=usr/share/znapzend/lib/Module/Build/API.pod
+file path=usr/share/znapzend/lib/Module/Build/Authoring.pod
+file path=usr/share/znapzend/lib/Module/Build/Base.pm
+file path=usr/share/znapzend/lib/Module/Build/Bundling.pod
+file path=usr/share/znapzend/lib/Module/Build/Compat.pm
+file path=usr/share/znapzend/lib/Module/Build/Config.pm
+file path=usr/share/znapzend/lib/Module/Build/ConfigData.pm
+file path=usr/share/znapzend/lib/Module/Build/Cookbook.pm
+file path=usr/share/znapzend/lib/Module/Build/Dumper.pm
+file path=usr/share/znapzend/lib/Module/Build/Notes.pm
+file path=usr/share/znapzend/lib/Module/Build/PPMMaker.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/Default.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/MacOS.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/Unix.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/VMS.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/VOS.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/Windows.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/aix.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/cygwin.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/darwin.pm
+file path=usr/share/znapzend/lib/Module/Build/Platform/os2.pm
+file path=usr/share/znapzend/lib/Module/Build/PodParser.pm
+file path=usr/share/znapzend/lib/Mojo.pm
+file path=usr/share/znapzend/lib/Mojo/Asset.pm
+file path=usr/share/znapzend/lib/Mojo/Asset/File.pm
+file path=usr/share/znapzend/lib/Mojo/Asset/Memory.pm
+file path=usr/share/znapzend/lib/Mojo/Base.pm
+file path=usr/share/znapzend/lib/Mojo/ByteStream.pm
+file path=usr/share/znapzend/lib/Mojo/Cache.pm
+file path=usr/share/znapzend/lib/Mojo/Collection.pm
+file path=usr/share/znapzend/lib/Mojo/Content.pm
+file path=usr/share/znapzend/lib/Mojo/Content/MultiPart.pm
+file path=usr/share/znapzend/lib/Mojo/Content/Single.pm
+file path=usr/share/znapzend/lib/Mojo/Cookie.pm
+file path=usr/share/znapzend/lib/Mojo/Cookie/Request.pm
+file path=usr/share/znapzend/lib/Mojo/Cookie/Response.pm
+file path=usr/share/znapzend/lib/Mojo/DOM.pm
+file path=usr/share/znapzend/lib/Mojo/DOM/CSS.pm
+file path=usr/share/znapzend/lib/Mojo/DOM/HTML.pm
+file path=usr/share/znapzend/lib/Mojo/Date.pm
+file path=usr/share/znapzend/lib/Mojo/DynamicMethods.pm
+file path=usr/share/znapzend/lib/Mojo/EventEmitter.pm
+file path=usr/share/znapzend/lib/Mojo/Exception.pm
+file path=usr/share/znapzend/lib/Mojo/File.pm
+file path=usr/share/znapzend/lib/Mojo/Headers.pm
+file path=usr/share/znapzend/lib/Mojo/HelloWorld.pm
+file path=usr/share/znapzend/lib/Mojo/Home.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/Client.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/Delay.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/ForkCall.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/Server.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/Stream.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/Subprocess.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/TLS.pm
+file path=usr/share/znapzend/lib/Mojo/IOLoop/resources/server.crt
+file path=usr/share/znapzend/lib/Mojo/IOLoop/resources/server.key
+file path=usr/share/znapzend/lib/Mojo/JSON.pm
+file path=usr/share/znapzend/lib/Mojo/JSON/Pointer.pm
+file path=usr/share/znapzend/lib/Mojo/Loader.pm
+file path=usr/share/znapzend/lib/Mojo/Log.pm
+file path=usr/share/znapzend/lib/Mojo/Message.pm
+file path=usr/share/znapzend/lib/Mojo/Message/Request.pm
+file path=usr/share/znapzend/lib/Mojo/Message/Response.pm
+file path=usr/share/znapzend/lib/Mojo/Parameters.pm
+file path=usr/share/znapzend/lib/Mojo/Path.pm
+file path=usr/share/znapzend/lib/Mojo/Promise.pm
+file path=usr/share/znapzend/lib/Mojo/Reactor.pm
+file path=usr/share/znapzend/lib/Mojo/Reactor/EV.pm
+file path=usr/share/znapzend/lib/Mojo/Reactor/Poll.pm
+file path=usr/share/znapzend/lib/Mojo/Server.pm
+file path=usr/share/znapzend/lib/Mojo/Server/CGI.pm
+file path=usr/share/znapzend/lib/Mojo/Server/Daemon.pm
+file path=usr/share/znapzend/lib/Mojo/Server/Hypnotoad.pm
+file path=usr/share/znapzend/lib/Mojo/Server/Morbo.pm
+file path=usr/share/znapzend/lib/Mojo/Server/Morbo/Backend.pm
+file path=usr/share/znapzend/lib/Mojo/Server/Morbo/Backend/Poll.pm
+file path=usr/share/znapzend/lib/Mojo/Server/PSGI.pm
+file path=usr/share/znapzend/lib/Mojo/Server/Prefork.pm
+file path=usr/share/znapzend/lib/Mojo/Template.pm
+file path=usr/share/znapzend/lib/Mojo/Transaction.pm
+file path=usr/share/znapzend/lib/Mojo/Transaction/HTTP.pm
+file path=usr/share/znapzend/lib/Mojo/Transaction/WebSocket.pm
+file path=usr/share/znapzend/lib/Mojo/URL.pm
+file path=usr/share/znapzend/lib/Mojo/Upload.pm
+file path=usr/share/znapzend/lib/Mojo/UserAgent.pm
+file path=usr/share/znapzend/lib/Mojo/UserAgent/CookieJar.pm
+file path=usr/share/znapzend/lib/Mojo/UserAgent/Proxy.pm
+file path=usr/share/znapzend/lib/Mojo/UserAgent/Server.pm
+file path=usr/share/znapzend/lib/Mojo/UserAgent/Transactor.pm
+file path=usr/share/znapzend/lib/Mojo/Util.pm
+file path=usr/share/znapzend/lib/Mojo/WebSocket.pm
+file path=usr/share/znapzend/lib/Mojo/resources/html_entities.txt
+file path=usr/share/znapzend/lib/Mojolicious.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/cpanify.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/generate.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/generate/app.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/generate/lite_app.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/generate/makefile.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/generate/plugin.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/Author/inflate.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/cgi.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/daemon.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/eval.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/get.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/prefork.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/psgi.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/routes.pm
+file path=usr/share/znapzend/lib/Mojolicious/Command/version.pm
+file path=usr/share/znapzend/lib/Mojolicious/Commands.pm
+file path=usr/share/znapzend/lib/Mojolicious/Controller.pm
+file path=usr/share/znapzend/lib/Mojolicious/Guides.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Contributing.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Cookbook.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/FAQ.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Growing.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Rendering.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Routing.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Testing.pod
+file path=usr/share/znapzend/lib/Mojolicious/Guides/Tutorial.pod
+file path=usr/share/znapzend/lib/Mojolicious/Lite.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/Config.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/DefaultHelpers.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/EPLRenderer.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/EPRenderer.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/ForkCall.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/HeaderCondition.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/JSONConfig.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/Mount.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/NotYAMLConfig.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugin/TagHelpers.pm
+file path=usr/share/znapzend/lib/Mojolicious/Plugins.pm
+file path=usr/share/znapzend/lib/Mojolicious/Renderer.pm
+file path=usr/share/znapzend/lib/Mojolicious/Routes.pm
+file path=usr/share/znapzend/lib/Mojolicious/Routes/Match.pm
+file path=usr/share/znapzend/lib/Mojolicious/Routes/Pattern.pm
+file path=usr/share/znapzend/lib/Mojolicious/Routes/Route.pm
+file path=usr/share/znapzend/lib/Mojolicious/Sessions.pm
+file path=usr/share/znapzend/lib/Mojolicious/Static.pm
+file path=usr/share/znapzend/lib/Mojolicious/Types.pm
+file path=usr/share/znapzend/lib/Mojolicious/Validator.pm
+file path=usr/share/znapzend/lib/Mojolicious/Validator/Validation.pm
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/favicon.ico
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/failraptor.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/jquery/jquery.js
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/logo-black-2x.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/logo-black.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/logo-white-2x.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/logo-white.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/logo.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/noraptor.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/notfound.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/pinstripe-dark.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/pinstripe-light.png
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/prettify/prettify-mojo-dark.css
+file path=usr/share/znapzend/lib/Mojolicious/resources/public/mojo/prettify/run_prettify.js
+file path=usr/share/znapzend/lib/Mojolicious/resources/templates/mojo/debug.html.ep
+file path=usr/share/znapzend/lib/Mojolicious/resources/templates/mojo/exception.html.ep
+file path=usr/share/znapzend/lib/Mojolicious/resources/templates/mojo/not_found.html.ep
+file path=usr/share/znapzend/lib/Sub/Uplevel.pm
+file path=usr/share/znapzend/lib/Test/Exception.pm
+file path=usr/share/znapzend/lib/Test/Mojo.pm
+file path=usr/share/znapzend/lib/ZnapZend.pm
+file path=usr/share/znapzend/lib/ZnapZend/Config.pm
+file path=usr/share/znapzend/lib/ZnapZend/Time.pm
+file path=usr/share/znapzend/lib/ZnapZend/ZFS.pm
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/IO-Pipely-0.005/MYMETA.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/IO-Pipely-0.005/install.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Module-Build-0.4231/MYMETA.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Module-Build-0.4231/install.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Mojo-IOLoop-ForkCall-0.20/MYMETA.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Mojo-IOLoop-ForkCall-0.20/install.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Mojolicious-8.57/MYMETA.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Mojolicious-8.57/install.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Sub-Uplevel-0.2800/MYMETA.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Sub-Uplevel-0.2800/install.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Test-Exception-0.43/MYMETA.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/.meta/Test-Exception-0.43/install.json
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/auto/IO/Pipely/.packlist
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/auto/Module/Build/.packlist
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/auto/Mojo/IOLoop/ForkCall/.packlist
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/auto/Mojolicious/.packlist
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/auto/Sub/Uplevel/.packlist
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/auto/Test/Exception/.packlist
+file path=usr/share/znapzend/lib/i86pc-solaris-thread-multi-64/perllocal.pod
+file path=usr/share/znapzend/lib/ojo.pm

@@ -1,0 +1,11 @@
+--- znapzend-0.20.0/init/znapzend.xml.in.~1~	2018-06-19 17:26:15.000000000 +0000
++++ znapzend-0.20.0/init/znapzend.xml.in	2020-07-27 19:07:08.548175706 +0000
+@@ -28,7 +28,7 @@
+         <exec_method 
+                 type="method" 
+                 name="start" 
+-                exec="@BINDIR@/znapzend --daemonize --pidfile=/dev/null"
++                exec="@BINDIR@/znapzend --features=oracleMode,recvu,compressed --rootExec=pfexec --logto=/var/log/znapzend.log --loglevel=info --connectTimeout=30 --autoCreation --daemonize --pidfile=/dev/null"
+                 timeout_seconds="180" />
+ 
+         <exec_method

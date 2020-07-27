@@ -1,0 +1,11 @@
+--- znapzend-0.20.0/lib/ZnapZend/ZFS.pm.~1~	2020-07-27 16:31:12.213994192 +0000
++++ znapzend-0.20.0/lib/ZnapZend/ZFS.pm	2020-07-27 16:36:29.969016152 +0000
+@@ -354,7 +354,7 @@
+     my $snapFilter = $_[0] || qr/.*/;
+     my $recvOpt = $self->recvu ? '-uF' : '-F';
+     my $incrOpt = $self->skipIntermediates ? '-i' : '-I';
+-    my @sendOpt = $self->compressed ? qw(-Lce) : ();
++    my @sendOpt = $self->compressed ? ($self->oracleMode ? qw(-w compress) : qw(-Lce)) : ();
+     push @sendOpt, '-w' if $self->sendRaw;
+ 
+     my $remote;
